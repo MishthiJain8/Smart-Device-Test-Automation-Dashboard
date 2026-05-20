@@ -1,0 +1,61 @@
+version: '3.9'
+
+# Override file for local development - automatically loaded by docker-compose
+# Usage: docker-compose up (automatically includes docker-compose.override.yml)
+
+services:
+  backend-api:
+    build:
+      context: ./backend-api
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/device_test_db
+      NODE_ENV: development
+      FRONTEND_URL: http://localhost
+      LOG_LEVEL: debug
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend-api:/app
+      - /app/node_modules
+    command: npm run dev
+
+  device-simulator-1:
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - ./device-simulator:/app
+      - /app/node_modules
+
+  device-simulator-2:
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - ./device-simulator:/app
+      - /app/node_modules
+
+  device-simulator-3:
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - ./device-simulator:/app
+      - /app/node_modules
+
+  device-simulator-4:
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - ./device-simulator:/app
+      - /app/node_modules
+
+  device-simulator-5:
+    environment:
+      LOG_LEVEL: debug
+    volumes:
+      - ./device-simulator:/app
+      - /app/node_modules
+
+  test-runner:
+    profiles: ["test"]
+    environment:
+      LOG_LEVEL: info

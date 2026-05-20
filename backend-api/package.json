@@ -1,0 +1,23 @@
+{
+  "name": "backend-api-service",
+  "version": "1.0.0",
+  "description": "Backend API for device monitoring and test result management",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "seed": "node seedDatabase.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "pg": "^8.11.3",
+    "axios": "^1.6.2",
+    "uuid": "^9.0.1",
+    "dotenv": "^16.3.1",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

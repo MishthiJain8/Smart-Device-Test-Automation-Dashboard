@@ -1,0 +1,76 @@
+version: '3'
+
+tasks:
+  setup:
+    desc: Install all dependencies
+    cmds:
+      - cd backend-api && npm install
+      - cd device-simulator && npm install
+      - cd test-runner && npm install
+      - cd frontend-dashboard && npm install
+
+  dev:
+    desc: Start all services locally (development mode)
+    cmds:
+      - docker-compose up -d
+
+  stop:
+    desc: Stop all services
+    cmds:
+      - docker-compose down
+
+  logs:
+    desc: View logs from all services
+    cmds:
+      - docker-compose logs -f
+
+  test:
+    desc: Run full test suite
+    cmds:
+      - docker-compose exec test-runner npm run run-tests
+
+  backend:
+    desc: Start backend API only
+    dir: backend-api
+    cmds:
+      - npm start
+
+  simulator:
+    desc: Start device simulator
+    dir: device-simulator
+    cmds:
+      - npm start
+
+  dashboard:
+    desc: Start dashboard development server
+    dir: frontend-dashboard
+    cmds:
+      - npm start
+
+  db-init:
+    desc: Initialize database
+    cmds:
+      - psql -h localhost -U postgres -d device_test_db -f backend-api/db-init.sql
+
+  docker-build:
+    desc: Build all Docker images
+    cmds:
+      - docker build -t smart-device-backend:latest ./backend-api
+      - docker build -t smart-device-simulator:latest ./device-simulator
+      - docker build -t smart-device-tests:latest ./test-runner
+
+  clean:
+    desc: Clean up Docker containers and volumes
+    cmds:
+      - docker-compose down -v
+      - docker system prune -f
+
+  metrics:
+    desc: Get current metrics
+    cmds:
+      - curl -s http://localhost:3000/api/metrics | jq .
+
+  devices:
+    desc: List all connected devices
+    cmds:
+      - curl -s http://localhost:3000/api/devices | jq .
